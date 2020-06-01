@@ -4,7 +4,7 @@ from twython import Twython, TwythonError
 from os import environ
 
 import time
-keywords =  ['pollachi','பொள்ளாச்சி'
+keywords =  ['pollachi','பொள்ளாச்சி']
 
 APP_KEY = environ.get('APP_KEY')
 APP_SECRET = environ.get('APP_SECRET')
