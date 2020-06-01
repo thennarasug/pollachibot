@@ -4,13 +4,12 @@ from twython import Twython, TwythonError
 from os import environ
 
 import time
-keywords =  ['pollachi','பொள்ளாச்சி']
+keywords =  ['pollachi','பொள்ளாச்சி','pollachitrain']
 
 APP_KEY = environ.get('APP_KEY')
 APP_SECRET = environ.get('APP_SECRET')
 OAUTH_TOKEN = environ.get('OAUTH_TOKEN')
 OAUTH_TOKEN_SECRET = environ.get('OAUTH_TOKEN_SECRET')
-TELEGRAM_TOKEN = environ.get('TELEGRAM_TOKEN')
 
 twitter = Twython(APP_KEY, APP_SECRET, OAUTH_TOKEN, OAUTH_TOKEN_SECRET)
 
