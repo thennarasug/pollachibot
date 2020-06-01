@@ -29,7 +29,7 @@ while True:
             for tweet in search_results['statuses']:
                 utf8Pollachi=keyword.encode('utf-8').lower()
                 totalcount = totalcount + 1
-                if utf8Pollachi in tweet['text'].encode('utf-8'):
+                if  "RT @" not in tweet['text'] and tweet['retweeted'] == False and tweet['is_quote_status'] == False and utf8Pollachi in tweet['text'].encode('utf-8'):
                     try:
                         print (tweet['text'])
                         twitter.retweet(id=int(tweet['id']))
