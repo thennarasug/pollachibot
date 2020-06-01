@@ -34,7 +34,7 @@ while True:
                 #print("-------------------------")
                 print(keyword, utf8Pollachi, tweet['user']['screen_name'], "-->", tweet['text'])
                 #print("-------------------------")
-                if "pollachi" not in tweet['user']['screen_name'] and "pollachi" not in tweet['user']['name'] and keyword.lower() not in tweet['user']['name'].lower() and and utf8Pollachi in tweet['text'].lower().encode('utf-8'):
+                if "pollachi" not in tweet['user']['screen_name'] and "pollachi" not in tweet['user']['name'] and keyword.lower() not in tweet['user']['name'].lower() and utf8Pollachi in tweet['text'].lower().encode('utf-8'):
                 #if  "RT @" not in tweet['text'] and tweet['retweeted'] == False and utf8Pollachi in tweet['text'].encode('utf-8'):
                 #if  "RT @" not in tweet['text'] and tweet['retweeted'] == False and tweet['is_quote_status'] == False and utf8Pollachi in tweet['text'].encode('utf-8'):
                     try:
