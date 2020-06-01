@@ -23,7 +23,7 @@ while True:
                 print (e)
         count=0
         for tweet in search_results['statuses']:
-            if  "RT @" not in tweet['text'] and tweet['retweeted'] == false:
+            if  "RT @" not in tweet['text'] and tweet['retweeted'] == False:
                 try:
                     print (tweet['text'])
                     twitter.retweet(id=int(tweet['id']))
