@@ -32,19 +32,21 @@ while True:
                 utf8Pollachi=keyword.lower().encode('utf-8')
                 totalcount = totalcount + 1
                 #print("-------------------------")
-                #print(keyword, utf8Pollachi, tweet['user']['screen_name'], "-->", tweet['text'])
+                print(keyword, utf8Pollachi, tweet['user']['screen_name'], "-->", tweet['text'])
                 #print("-------------------------")
-                if tweet['user']['screen_name'] != "pollachibot" :#and utf8Pollachi in tweet['text'].lower().encode('utf-8'):
+                if tweet['user']['screen_name'] != "pollachibot" and utf8Pollachi in tweet['text'].lower().encode('utf-8'):
                 #if  "RT @" not in tweet['text'] and tweet['retweeted'] == False and utf8Pollachi in tweet['text'].encode('utf-8'):
                 #if  "RT @" not in tweet['text'] and tweet['retweeted'] == False and tweet['is_quote_status'] == False and utf8Pollachi in tweet['text'].encode('utf-8'):
                     try:
-                        print (tweet['text'])
+                        #print (tweet['text'])
                         twitter.retweet(id=int(tweet['id']))
                         count = count +1
+                        print("*****************RT*******************")
                         #print ('Tweet from @%s Date: %s' % (tweet['user']['screen_name'].encode('utf-8'),tweet['created_at']))
                         #print (tweet['text'].encode('utf-8'), '\n')
                     except TwythonError as e:
                         print (e)
+
 
         print (keyword + "---> total filtered and retweeted ---> " + str(count) + " out of " + str(totalcount))
     print ("end of search")
