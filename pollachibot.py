@@ -18,18 +18,21 @@ while True:
     for keyword in keywords:
         for lang_list in ['en','ta']:
             try:
-                search_results = twitter.search(q=keyword,count=100, lang=lang_list, result_type='recent')
+                #count=100 max (default 15), result_type='mixed' or 'recent'
+                #count=15 max (default 15), result_type='popular'
+                search_results = twitter.search(q=keyword,count=1000, lang=lang_list, result_type='recent')
             except TwythonError as e:
                 print (e)
         count=0
         for tweet in search_results['statuses']:
-            if  "RT @" not in tweet['text'] and tweet['retweeted'] == False:
+            utf8Pollachi=keyword.encode('utf-8').lower()
+            if utf8Pollachi in tweet['text'].encode('utf-8'):
                 try:
                     print (tweet['text'])
                     twitter.retweet(id=int(tweet['id']))
                     count = count +1
-                    print ('Tweet from @%s Date: %s' % (tweet['user']['screen_name'].encode('utf-8'),tweet['created_at']))
-                    print (tweet['text'].encode('utf-8'), '\n')
+                    #print ('Tweet from @%s Date: %s' % (tweet['user']['screen_name'].encode('utf-8'),tweet['created_at']))
+                    #print (tweet['text'].encode('utf-8'), '\n')
                 except TwythonError as e:
                     print (e)
         print ("total filtered and retweeted..." + str(count))
