@@ -13,6 +13,7 @@ OAUTH_TOKEN_SECRET = environ.get('OAUTH_TOKEN_SECRET')
 
 twitter = Twython(APP_KEY, APP_SECRET, OAUTH_TOKEN, OAUTH_TOKEN_SECRET)
 
+
 #indefinite while loop that runs every 1 hour. To remove the dependency on scheduler.
 while True:
     count=0
@@ -27,9 +28,15 @@ while True:
                 print (e)
 
             for tweet in search_results['statuses']:
-                utf8Pollachi=keyword.encode('utf-8').lower()
+
+                utf8Pollachi=keyword.lower().encode('utf-8')
                 totalcount = totalcount + 1
-                if  "RT @" not in tweet['text'] and tweet['retweeted'] == False and tweet['is_quote_status'] == False and utf8Pollachi in tweet['text'].encode('utf-8'):
+                #print("-------------------------")
+                #print(keyword, utf8Pollachi, tweet['user']['screen_name'], "-->", tweet['text'])
+                #print("-------------------------")
+                if tweet['user']['screen_name'] != "pollachibot" :#and utf8Pollachi in tweet['text'].lower().encode('utf-8'):
+                #if  "RT @" not in tweet['text'] and tweet['retweeted'] == False and utf8Pollachi in tweet['text'].encode('utf-8'):
+                #if  "RT @" not in tweet['text'] and tweet['retweeted'] == False and tweet['is_quote_status'] == False and utf8Pollachi in tweet['text'].encode('utf-8'):
                     try:
                         print (tweet['text'])
                         twitter.retweet(id=int(tweet['id']))
@@ -39,9 +46,9 @@ while True:
                     except TwythonError as e:
                         print (e)
 
-    print ("total filtered and retweeted..." + str(count) + "out of" + str(totalcount))
+        print (keyword + "---> total filtered and retweeted ---> " + str(count) + " out of " + str(totalcount))
     print ("end of search")
-    print ("sleeping for 1 hour")
-    time.sleep(3600)
+    print ("sleeping for 30 minutes")
+    time.sleep(1800)
 else:
         print ("***terminated***")
