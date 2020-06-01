@@ -23,15 +23,15 @@ while True:
                 print (e)
         count=0
         for tweet in search_results['statuses']:
-            #if  "RT @" not in tweet['text'] and tweet['retweeted'] == :
-            try:
-                print (tweet['text'])
-                twitter.retweet(id=int(tweet['id']))
-                count = count +1
-                print ('Tweet from @%s Date: %s' % (tweet['user']['screen_name'].encode('utf-8'),tweet['created_at']))
-                print (tweet['text'].encode('utf-8'), '\n')
-            except TwythonError as e:
-                print (e)
+            if  "RT @" not in tweet['text'] and tweet['retweeted'] == false:
+                try:
+                    print (tweet['text'])
+                    twitter.retweet(id=int(tweet['id']))
+                    count = count +1
+                    print ('Tweet from @%s Date: %s' % (tweet['user']['screen_name'].encode('utf-8'),tweet['created_at']))
+                    print (tweet['text'].encode('utf-8'), '\n')
+                except TwythonError as e:
+                    print (e)
         print ("total filtered and retweeted..." + str(count))
         print ("end of search")
     print ("sleeping for 1 hour")
