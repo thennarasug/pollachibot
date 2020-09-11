@@ -31,7 +31,7 @@ while True:
 
                 utf8Pollachi=keyword.lower().encode('utf-8')
                 totalcount = totalcount + 1
-                if "RT @" not in tweet['text'] and "pollachibot" != tweet['user']['screen_name'] and utf8Pollachi in tweet['text'].lower().encode('utf-8'):
+                if "RT @" not in tweet['text'] and "SIGNAL_POLLACHI" != tweet['user']['screen_name'] and "pollachibot" != tweet['user']['screen_name'] and utf8Pollachi in tweet['text'].lower().encode('utf-8'):
                     try:
                         trycount = trycount + 1
                         twitter.retweet(id=int(tweet['id']))
