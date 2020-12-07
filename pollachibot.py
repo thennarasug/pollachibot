@@ -42,7 +42,7 @@ while True:
 
             print (keyword, " in ", lang_list, ". Total filtered and retweeted ---> " , str(count) , " / " , str(trycount) , " / " , str(totalcount))
     print ("end of search")
-    print ("sleeping for 6 hrs")
-    time.sleep(21600)
+    print ("sleeping for 12 hrs")
+    time.sleep(21600*2)
 else:
         print ("***terminated***")
