@@ -73,38 +73,39 @@ while True:
     totalcount=0
     for keyword in keywords:
         for lang_list in ['en','ta']:
-            try:
-                #count=100 max (default 15), result_type='mixed' or 'recent'
-                #count=15 max (default 15), result_type='popular'
-                search_results = twitter.search(q=keyword,count=100, lang=lang_list, result_type='recent')
-            except TwythonError as e:
-                print(e)
+            for result_type in ['popular','mixed', 'recent']:
+                try:
+                    #count=100 max (default 15), result_type='mixed' or 'recent'
+                    #count=15 max (default 15), result_type='popular'
+                    search_results = twitter.search(q=keyword,count=100, lang=lang_list, result_type=result_type)
+                except TwythonError as e:
+                    print(e)
 
-             # print(search_results)
-            if len(search_results) > 0:
-                for tweet in search_results['statuses']:
-                    utf8Pollachi = keyword.lower().encode('utf-8')
-                    totalcount = totalcount + 1
-                    #"RT @" not in tweet['text'] and
-                    if  "pollachibot" != tweet['user']['screen_name'] and utf8Pollachi in tweet['text'].lower().encode('utf-8') and tweet['user']['screen_name'] not in ['SIGNAL_POLLACHI']:
-                        try:
-                            cursor = select_error_string(tweet['id'])
-                            for row in cursor:
-                                if row[0] == 0:
-                                    trycount = trycount + 1
-                                    twitter.retweet(id=int(tweet['id']))
-                                    count = count + 1
-                                    print(tweet['user']['screen_name'], "-->", tweet['id'], "--->", keyword.lower(), "--->",
-                                          tweet['text'].lower())
+                 # print(search_results)
+                if len(search_results) > 0:
+                    for tweet in search_results['statuses']:
+                        utf8Pollachi = keyword.lower().encode('utf-8')
+                        totalcount = totalcount + 1
+                        #"RT @" not in tweet['text'] and
+                        if  "pollachibot" != tweet['user']['screen_name'] and utf8Pollachi in tweet['text'].lower().encode('utf-8') and tweet['user']['screen_name'] not in ['SIGNAL_POLLACHI']:
+                            try:
+                                cursor = select_error_string(tweet['id'])
+                                for row in cursor:
+                                    if row[0] == 0:
+                                        trycount = trycount + 1
+                                        twitter.retweet(id=int(tweet['id']))
+                                        count = count + 1
+                                        print(tweet['user']['screen_name'], "-->", tweet['id'], "--->", keyword.lower(), "--->",
+                                              tweet['text'].lower())
+                                        insert_error_string(tweet['id'])
+
+                            except TwythonError as e:
+                                if "You have already retweeted this Tweet" in str(e):
                                     insert_error_string(tweet['id'])
+                                print(e)
 
-                        except TwythonError as e:
-                            if "You have already retweeted this Tweet" in str(e):
-                                insert_error_string(tweet['id'])
-                            print(e)
-
-                print(keyword, " in ", lang_list, ". Total filtered and retweeted ---> ", str(count), " / ", str(trycount),
-                      " / ", str(totalcount))
+                    print(keyword, " in ", lang_list, ". Total filtered and retweeted ---> ", str(count), " / ", str(trycount),
+                          " / ", str(totalcount))
     print("end of search")
     print("sleeping for 3 hour")
     time.sleep(3600)
