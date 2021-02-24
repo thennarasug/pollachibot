@@ -70,7 +70,7 @@ while True:
                     # count=15 max (default 15), result_type='popular'
                     search_results = twitter.search(q=keyword, count=100, lang=lang_list, result_type=result_type)
                 except TwythonError as e:
-                    print(e)
+                    print("error on search", e)
 
                 # print(search_results)
                 if len(search_results) > 0:
@@ -102,13 +102,17 @@ while True:
                                 totalcount = totalcount + 1
                                 if "You have already retweeted this Tweet" in str(e):
                                     insert_error_string(tweet['id'])
+                                    print("error on action", tweet['id'], e)
+                                    time.sleep(5)
                                 else:
-                                    print(e)
+                                    print("error on action", e)
                         else:
                             trycount = trycount + 1
                             totalcount = totalcount + 1
 
                     # print(keyword, "in", lang_list, "of", result_type, ". Total filtered and retweeted ---> ", str(count), " / ", str(trycount), " / ", str(totalcount))
+            # added this to avoid "Twitter API returned a 429 (Too Many Requests), Rate limit exceeded"
+            time.sleep(5)
     # print("end of search")
     print(dt.datetime.now(), "sleeping for 30 mins")
     time.sleep(60 * 30)
