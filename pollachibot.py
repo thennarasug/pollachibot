@@ -1,7 +1,7 @@
-import time
-import sqlite3
-import traceback
 import datetime as dt
+import sqlite3
+import time
+import traceback
 
 # Twython twitter api
 from twython import Twython, TwythonError
@@ -43,7 +43,7 @@ def select_error_string(id):
         return None
 
 # for database
-dbfilewithpath = ".\\pollachi.db"
+dbfilewithpath = "./pollachi.db"
 db = sqlite3.connect(dbfilewithpath)
 create_table()
 
@@ -78,19 +78,25 @@ while True:
                     for tweet in search_results['statuses']:
                         utf8Pollachi = keyword.lower().encode('utf-8')
                         totalcount = totalcount + 1
-                        #"RT @" not in tweet['text'] and
-                        if  "pollachibot" != tweet['user']['screen_name'] and utf8Pollachi in tweet['text'].lower().encode('utf-8') and tweet['user']['screen_name'] not in ['SIGNAL_POLLACHI']:
+                        a = tweet['text'].lower().count("pollachi")
+                        b = tweet['text'].lower().count("@pollachi")
+                        c = tweet['text'].lower().count("_pollachi")
+                        e = tweet['text'].lower().count("பொள்ளாச்சி")
+                        d = tweet['user']['screen_name'].lower().count("pollachi")
+
+                        # and utf8Pollachi in tweet['text'].lower().encode('utf-8')
+                        if (a + b + c + d == 0 or a + e > b + c) and tweet['user']['screen_name'].lower() not in ['signal_pollachi', 'pollachibot']:
                             try:
                                 cursor = select_error_string(tweet['id'])
                                 for row in cursor:
                                     if row[0] == 0:
                                         twitter.retweet(id=int(tweet['id']))
-                                        print(tweet['user']['screen_name'], "-->", tweet['id'], "--->", keyword.lower(), "--->",
-                                              tweet['text'].lower())
+                                        print(tweet['user']['screen_name'], "-->", tweet['id'], "--->", keyword.lower(), "--->", tweet['text'].lower())
                                         insert_error_string(tweet['id'])
                                         count = count + 1
                                         trycount = trycount + 1
                                         totalcount = totalcount + 1
+                                        time.sleep(5)
                             except TwythonError as e:
                                 trycount = trycount + 1
                                 totalcount = totalcount + 1
@@ -103,10 +109,7 @@ while True:
                             totalcount = totalcount + 1
 
                     # print(keyword, "in", lang_list, "of", result_type, ". Total filtered and retweeted ---> ", str(count), " / ", str(trycount), " / ", str(totalcount))
-    #print("end of search")
-    print(dt.datetime.now(), "sleeping for 5mins")
-    time.sleep(360)
-else:
-    db.close()
-    print("***terminated***")
+    # print("end of search")
+    print(dt.datetime.now(), "sleeping for 30 mins")
+    time.sleep(60 * 30)
 
