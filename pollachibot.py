@@ -128,6 +128,14 @@ while True:
                 except TwythonError as e:
                     print("error on search", e)
                     log.logerror("error on search", e)
+                except ConnectionResetError as c:
+                    print("go to sleep..", c)
+                    log.logerror("go to sleep..", c)
+                    time.sleep(5)
+                except Exception as e:
+                    print("other errors ..", e)
+                    log.logerror("other errors..", e)
+
             # added this to avoid "Twitter API returned a 429 (Too Many Requests), Rate limit exceeded"
             time.sleep(5)
     # print("end of search")
